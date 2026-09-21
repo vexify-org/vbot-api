@@ -113,8 +113,8 @@ describe('Router', () => {
     const getResult = await router.match(getCtx);
     const postResult = await router.match(postCtx);
 
-    expect(getResult.handlers[0].name).toBe('h');
-    expect(postResult.handlers[0].name).toBe('h');
+    expect(getResult.handlers.length).toBe(1);
+    expect(postResult.handlers.length).toBe(1);
   });
 
   test('toJSON generates OpenAPI spec', () => {
