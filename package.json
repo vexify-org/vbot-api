@@ -1,23 +1,43 @@
 {
   "name": "vbot-api",
   "version": "1.0.0",
-  "description": "VBot API 客户端封装 | API client library for VBot",
-  "main": "src/client.js",
-  "type": "module",
+  "description": "Production-grade API framework — Express/Koa-style routing, middleware, validators, auth, and OpenAPI generation",
+  "keywords": ["api", "framework", "http", "router", "middleware", "rest", "vbot"],
+  "license": "MIT",
+  "author": "VBot Team <vbot@example.com>",
+  "homepage": "https://github.com/vexify-org/vbot-api",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vexify-org/vbot-api.git"
+  },
   "engines": {
-    "node": ">=18"
+    "node": ">=18.0.0"
   },
-  "license": "Apache-2.0",
+  "main": "src/index.js",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "start": "node example/server.js",
+    "dev": "node --watch example/server.js",
+    "test": "jest",
+    "lint": "eslint src/ test/ example/",
+    "pretest": "eslint src/ test/ example/ || true"
   },
-  "keywords": [
-    "api",
-    "client",
-    "vbot",
-    "http"
-  ],
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": ["**/test/**/*.test.js"],
+    "collectCoverageFrom": ["src/**/*.js", "!src/**/*.test.js"],
+    "verbose": true
+  },
   "files": [
     "src/"
-  ]
+  ],
+  "exports": {
+    ".": "./src/index.js",
+    "./middleware/*": "./src/middleware/*.js",
+    "./validators": "./src/validators/index.js",
+    "./utils/*": "./src/utils/*.js"
+  }
 }
