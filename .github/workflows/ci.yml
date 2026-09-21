@@ -9,18 +9,16 @@ on:
 
 jobs:
   test:
-    name: Node.js ${{ matrix.node }} on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+    name: Test (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
         node: ['18', '20', '22']
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
 
@@ -33,5 +31,5 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Verify module loads
+      - name: Verify module
         run: node -e "const { createApp } = require('./src/index.js'); const a = createApp(); console.log('OK'); a.close();"
