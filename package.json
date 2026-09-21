@@ -1,0 +1,23 @@
+{
+  "name": "vbot-api",
+  "version": "1.0.0",
+  "description": "VBot API 客户端封装 | API client library for VBot",
+  "main": "src/client.js",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "Apache-2.0",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "keywords": [
+    "api",
+    "client",
+    "vbot",
+    "http"
+  ],
+  "files": [
+    "src/"
+  ]
+}
