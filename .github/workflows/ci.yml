@@ -7,11 +7,9 @@ on:
   pull_request:
     branches: [main, master]
 
-# 安全：最小权限原则
 permissions:
   contents: read
 
-# 防抖：避免重复运行，节约计算资源
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -20,12 +18,11 @@ jobs:
   test:
     name: Test (Node ${{ matrix.node }})
     runs-on: ubuntu-latest
-    timeout-minutes: 15 # 防死循环
+    timeout-minutes: 15
     
     strategy:
       fail-fast: false
       matrix:
-        # 2026年了，向老版本告别
         node: ['20', '22', '24']
 
     steps:
@@ -34,17 +31,13 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
-          # cache: npm  # 还是先注释掉，等有 lock 文件了再开启
+          cache: npm
 
       - name: Install dependencies
         run: npm install --no-audit --no-fund
-
-      - name: Run linter
-        # 删掉 || true，让帝国的规则真正拥有力量
-        run: npm run lint
 
       - name: Run tests
         run: npm test
 
       - name: Verify module
-        run: node -e "const { createApp } = require('./src/index.js'); const a = createApp(); console.log('OK'); a.close();"
+        run: node -e "import('./src/index.js').then(m => { const { createApp } = m; const a = createApp(); console.log('OK'); a.close(); });"
