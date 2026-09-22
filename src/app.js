@@ -104,7 +104,7 @@ class VBotApp extends EventEmitter {
   use(prefix, routerOrApp) {
     if (typeof prefix !== 'string') {
       // If first arg is not a string, treat as global middleware
-      return super.use(prefix);
+      return this.use(prefix);
     }
     if (routerOrApp instanceof Router) {
       this.router.use(prefix, routerOrApp);
