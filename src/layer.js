@@ -52,18 +52,16 @@ const pathToRegexp = function(path, keys, options) {
   const keys_cache = keys || [];
 
   for (const p of path) {
-    const c = p.split('/');
-    let reStr = '^';
+    const c = p.split('/').filter(s => s !== '');
+    let reStr = '^/';
 
     for (let i = 0; i < c.length; i++) {
       const seg = c[i];
 
       if (i === c.length - 1 && !strict) {
         // Last segment, make trailing slash optional in non-strict mode
-        if (seg === '') {
-          reStr += '/?';
-          continue;
-        }
+        reStr += '\/?';
+        continue;
       }
 
       if (seg === '*') {
@@ -77,12 +75,15 @@ const pathToRegexp = function(path, keys, options) {
         reStr += pat;
         keys_cache.push({ name: realName, optional, repeatable: false });
       } else {
-        reStr += '/' + escapeRegex(seg);
+        reStr += escapeRegex(seg) + '/';
       }
     }
 
     if (end) {
+      reStr = reStr.replace(/\/$/, '');
       reStr += '$';
+    } else {
+      reStr = reStr.replace(/\/$/, '');
     }
 
     return new RegExp(reStr, options.sensitive ? '' : 'i');
